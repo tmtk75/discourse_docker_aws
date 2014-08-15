@@ -1,0 +1,5 @@
+.*.swp
+*.tfplan
+*.tfstate
+*.backup
+.e

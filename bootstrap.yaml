@@ -1,0 +1,11 @@
+- hosts: all
+  sudo: true
+  user: ec2-user
+  tasks:
+    - command: yum-config-manager --enable epel
+    - yum: name=git
+    - yum: name=docker-io
+    - service: name=docker state=started
+    - git: name=https://github.com/discourse/discourse_docker dest=/opt/discourse_docker
+    - command: ssh-keygen -t rsa -q -f ~/.ssh/id_rsa -P ''
+    - command: chdir=/opt/discourse_docker ./launcher bootstrap app
