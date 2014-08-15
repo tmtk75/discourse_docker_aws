@@ -13,6 +13,9 @@ destroy:
 ansible-playbook=ansible-playbook -i "`terraform output public_ip.community-jp`,"
 #ansible-playbook=ansible-playbook -i "default,"
 
+init:
+	$(ansible-playbook) init.yaml 
+
 bootstrap:
 	$(ansible-playbook) bootstrap.yaml 
 
