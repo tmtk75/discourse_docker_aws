@@ -5,11 +5,27 @@ variable "aws_region" {}
 variable "cidr" {
     default = "192.168.11.0/24"
 }
+variable "amis" {
+    default = {
+        "ap-northeast-1": "ami-29dc9228",
+        "ap-southeast-1": "ami-a6b6eaf4",
+    }
+}
+variable "availability_zones" {
+    default = {
+        "ap-northeast-1": "c",
+        "ap-southeast-1": "b",
+    }
+}
 
 provider "aws" {
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
     region = "${var.aws_region}"
+}
+
+output "region" {
+    value = "${var.aws_region}"
 }
 
 resource "aws_vpc" "my-vpc" {
@@ -23,7 +39,7 @@ output "vpc_id" {
 resource "aws_subnet" "main" {
     vpc_id = "${aws_vpc.my-vpc.id}"
     cidr_block = "${var.cidr}"
-    availability_zone = "${var.aws_region}c"
+    availability_zone = "${var.aws_region}${lookup(var.availability_zones, var.aws_region)}"
 }
 
 resource "aws_internet_gateway" "gw" {
@@ -56,16 +72,12 @@ resource "aws_security_group" "allow_all" {
 }
 
 resource "aws_instance" "community-jp" {
-    ami = "ami-29dc9228"
+    ami = "${lookup(var.amis, var.aws_region)}"
     instance_type = "t2.micro"
     subnet_id = "${aws_subnet.main.id}"
     key_name = "${var.key_name}"
     security_groups = ["${aws_security_group.allow_all.id}"]
     count = 1
-}
-
-output "private_dns.community-jp " {
-    value = "${aws_instance.community-jp.private_dns}"
 }
 
 resource "aws_eip" "community-jp" {

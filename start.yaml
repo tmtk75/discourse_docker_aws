@@ -1,5 +1,4 @@
 - hosts: all
   sudo: true
   tasks:
-    - command: chdir=/opt/discourse_docker cp ./samples/standalone.yml containers/app.yml
     - command: chdir=/opt/discourse_docker ./launcher start app

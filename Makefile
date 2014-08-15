@@ -1,4 +1,4 @@
-opts=-var-file ~/.aws/default.tfvars
+opts=-var-file ~/.aws/development-sg.tfvars
 
 plan:
 	terraform plan $(opts)
@@ -11,7 +11,7 @@ destroy:
 	terraform apply destroy.tfplan
 
 bootstrap:
-	ansible-playbook -i "`terraform output public_ip.community-jp`," bootstrap.yaml
+	ansible-playbook -i "`terraform output public_ip.community-jp`," bootstrap.yaml 
 
 start:
 	ansible-playbook -i "`terraform output public_ip.community-jp`," start.yaml
@@ -19,5 +19,3 @@ start:
 distclean:
 	rm -f terraform.tfstate destroy.tfplan
 
-ensure-vpc:
-	aws ec2 modify-vpc-attribute --vpc-id `terraform output vpc_id` --enable-dns-hostnames '{"Value":true}'

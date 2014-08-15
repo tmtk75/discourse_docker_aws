@@ -7,5 +7,7 @@
     - yum: name=docker-io
     - service: name=docker state=started
     - git: name=https://github.com/discourse/discourse_docker dest=/opt/discourse_docker
+    - command: rm -f ~/.ssh/id_rsa
     - command: ssh-keygen -t rsa -q -f ~/.ssh/id_rsa -P ''
+    - command: chdir=/opt/discourse_docker cp ./samples/standalone.yml containers/app.yml
     - command: chdir=/opt/discourse_docker ./launcher bootstrap app
