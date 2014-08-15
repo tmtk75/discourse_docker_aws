@@ -1,0 +1,4 @@
+- hosts: all
+  sudo: true
+  tasks:
+    - command: chdir=/opt/discourse_docker ./launcher stop app

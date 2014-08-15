@@ -1,0 +1,10 @@
+Host *
+  StrictHostKeyChecking=no
+  UserKnownHostsFile=/dev/null
+  LogLevel ERROR
+  User ec2-user
+  IdentityFile ~/.ssh/development-sg.pem
+
+# TODO: Please fix HostName and IdentityFile as yours
+Host default
+  HostName 54.255.189.96
