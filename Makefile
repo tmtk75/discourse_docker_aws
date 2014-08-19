@@ -41,6 +41,13 @@ ssh:
 distclean:
 	rm -f terraform.tfstate destroy.tfplan
 
+## virtualbox NAT
+natpf:
+	VBoxManage controlvm "discourse_docker" natpf1 ",tcp,127.0.0.1,8080,,80"
+
+clean_natpf:
+	VBoxManage controlvm "discourse_docker" natpf1 delete tcp_8080_80
+
 ## Ansible setup
 ansible: .e/bin/ansible
 .e/bin/ansible: .e
