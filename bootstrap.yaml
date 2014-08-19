@@ -1,6 +1,5 @@
 - hosts: all
   sudo: true
-  user: ec2-user
   tasks:
     - command: chdir=/opt/discourse_docker cp ./samples/standalone.yml containers/app.yml
     - command: chdir=/opt/discourse_docker ./launcher bootstrap app

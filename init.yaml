@@ -1,6 +1,5 @@
 - hosts: all
   sudo: true
-  user: ec2-user
   tasks:
     - command: yum-config-manager --enable epel
     - yum: name=git
@@ -10,4 +9,4 @@
     - command: rm -f ~/.ssh/id_rsa
     - command: ssh-keygen -t rsa -q -f ~/.ssh/id_rsa -P ''
     - include: swap.yaml
-
+      when: not vagrant
